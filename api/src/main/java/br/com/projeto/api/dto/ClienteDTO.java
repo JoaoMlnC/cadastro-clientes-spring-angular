@@ -7,7 +7,7 @@ public class ClienteDTO {
     private String status;
     private String username;
     private String password; 
-    private String confirmPassword; // Confirmação da nova senha
+    private String confirmPassword; 
 
   
     public ClienteDTO() {}

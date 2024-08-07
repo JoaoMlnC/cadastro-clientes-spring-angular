@@ -3,20 +3,22 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Cliente } from '../model/Cliente';
 import { ClienteService } from '../service/cliente.service';
+import { AuthService } from '../service/auth.service';
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-principal',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './principal.component.html',
-  styleUrls: ['./principal.component.css'] // Corrigido para styleUrls
+  styleUrls: ['./principal.component.css'] 
 })
 export class PrincipalComponent {
-  // Propriedades para filtros
+  
   filtroRazaoSocial: string = '';
   filtroCnpj: string = '';
 
-  // Objeto do tipo Cliente
+  
   cliente = new Cliente();
   clientes: Cliente[] = [];
   btnCadastro: boolean = true;
@@ -24,7 +26,11 @@ export class PrincipalComponent {
 
   public isSelecionar: boolean = false;
 
-  constructor(private service: ClienteService) {}
+  constructor(
+    private service: ClienteService,
+    private authService: AuthService, 
+    private router: Router 
+  ) {}
 
   ngOnInit() {
     this.listarClientes();
@@ -35,17 +41,40 @@ export class PrincipalComponent {
     console.log(this.clientes);
   }
 
-  // Método de cadastro
+  
   cadastrarClientes(): void {
+    let mensagemErro = '';
+    switch (true) {
+        case !this.cliente.username:
+            mensagemErro += 'O campo Nome é obrigatório.\n';
+            break;
+        case !this.cliente.password:
+            mensagemErro += 'O campo Senha é obrigatório.\n';
+            break;
+        case !this.cliente.cnpj:
+            mensagemErro += 'O campo CNPJ é obrigatório.\n';
+            break;
+        case !this.cliente.razaoSocial:
+            mensagemErro += 'O campo Razão Social é obrigatório.\n';
+            break;
+        case !this.cliente.status:
+            mensagemErro += 'O campo Status Social é obrigatório.\n';
+            break;
+    }
+    if (mensagemErro) {
+        alert(mensagemErro);
+        return;
+    }
+    
     this.service.cadastrarClientes(this.cliente).subscribe(retorno => {
-      this.clientes.push(retorno);
-      this.cliente = new Cliente(); // Limpar formulário
-      alert("Cliente cadastrado com Sucesso!");
-      this.listarClientes(); // Atualizar a lista
+            this.clientes.push(retorno);
+            this.cliente = new Cliente(); 
+            alert("Cliente cadastrado com Sucesso!");
+            this.listarClientes(); 
     });
-  }
+}
 
-  // Método de seleção
+  
   selecionarCliente(posicao: number): void {
     this.isSelecionar = true;
     this.cliente = this.clientes[posicao];
@@ -53,7 +82,7 @@ export class PrincipalComponent {
     this.tabela = false;
   }
 
-  // Método para editar clientes
+  
   editarCliente(): void {
     if (!this.cliente.username) {
       alert("Todos os campos são obrigatórios!");
@@ -65,12 +94,12 @@ export class PrincipalComponent {
       this.cliente = new Cliente();
       this.btnCadastro = true;
       this.tabela = true;
-      this.listarClientes(); // Atualizar a lista
+      this.listarClientes(); 
       alert("Cliente alterado com Sucesso!");
     });
   }
 
-  // Método para remover clientes
+  
   removerCliente(): void {
     this.service.removerClientes(this.cliente.id).subscribe(() => {
       let posicao = this.clientes.findIndex(obj => obj.id == this.cliente.id);
@@ -78,19 +107,20 @@ export class PrincipalComponent {
       this.cliente = new Cliente();
       this.btnCadastro = true;
       this.tabela = true;
-      this.listarClientes(); // Atualizar a lista
+      this.listarClientes();
       alert("Cliente Removido com Sucesso!");
     });
   }
 
-  // Método para cancelar
+
   cancelarAcao(): void {
     this.cliente = new Cliente();
     this.btnCadastro = true;
     this.tabela = true;
+    this.listarClientes();
   }
 
-  // Método para buscar por razão social
+  
   buscarPorRazaoSocial(): void {
     if (!this.filtroRazaoSocial) {
       alert('Por favor, insira uma razão social para buscar.');
@@ -102,7 +132,7 @@ export class PrincipalComponent {
     });
   }
 
-  // Método para buscar por CNPJ
+  
   buscarPorCnpj(): void {
     if (!this.filtroCnpj) {
       alert('Por favor, insira um CNPJ para buscar.');
@@ -112,5 +142,11 @@ export class PrincipalComponent {
     this.service.buscarPorCnpj(this.filtroCnpj).subscribe(retorno => {
       this.clientes = retorno;
     });
+  }
+
+  
+  logout(): void {
+    this.authService.logout(); 
+    this.router.navigate(['/login']); 
   }
 }

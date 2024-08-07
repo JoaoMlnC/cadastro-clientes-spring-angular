@@ -26,4 +26,8 @@ export class LoginComponent {
       },
     });
   }
+  onLogout() {
+    this.authService.logout(); 
+    this.router.navigate(['/login']); 
+  }
 }

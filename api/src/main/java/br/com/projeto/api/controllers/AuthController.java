@@ -17,18 +17,6 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @GetMapping("/test")
-    public String test() {
-        return "Endpoint de teste está funcionando!";
-    }
-    @PostMapping("/receiveCliente")
-    public String receiveCliente(@RequestBody Cliente cliente) {
-        System.out.println("Cliente recebido: " + cliente);
-        return "Cliente recebido!";
-    }
-
-    
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Cliente cliente) {
         try {

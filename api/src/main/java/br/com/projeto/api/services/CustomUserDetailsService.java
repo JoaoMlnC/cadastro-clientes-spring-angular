@@ -12,9 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.projeto.api.model.Cliente;
-import br.com.projeto.api.model.Usuario; // Supondo que você tenha uma entidade Usuario
 import br.com.projeto.api.repository.ClienteRepository;
-import br.com.projeto.api.repository.UsuarioRepository; // Repositório do Usuário
+
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

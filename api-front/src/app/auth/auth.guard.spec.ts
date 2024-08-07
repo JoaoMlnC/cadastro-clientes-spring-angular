@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 class MockAuthService {
   isAuthenticated() {
-    return true; // Simula que o usuário está autenticado
+    return true; 
   }
 }
 
@@ -40,7 +40,7 @@ describe('AuthGuard', () => {
   });
 
   it('should redirect to login if user is not authenticated', () => {
-    spyOn(authService, 'isAuthenticated').and.returnValue(false); // Simula que o usuário não está autenticado
+    spyOn(authService, 'isAuthenticated').and.returnValue(false); 
     guard.canActivate();
     expect(router.navigate).toHaveBeenCalledWith(['/login']);
   });

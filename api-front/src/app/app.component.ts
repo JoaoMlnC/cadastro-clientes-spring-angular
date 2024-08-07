@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router'; // Importando RouterOutlet para gerenciamento de rotas
+import { RouterOutlet } from '@angular/router'; 
 
 @Component({
   selector: 'app-root',
@@ -7,7 +7,7 @@ import { RouterOutlet } from '@angular/router'; // Importando RouterOutlet para 
     <router-outlet></router-outlet>
   `,
   standalone: true,
-  imports: [RouterOutlet] // Importando o RouterOutlet aqui
+  imports: [RouterOutlet] 
 })
 export class AppComponent {
   title = 'api-front';

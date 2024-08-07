@@ -1,57 +1,65 @@
-<form action="">
-    <img src="/cliente.png">
-    
-    <input type="text" placeholder="Nome" class="form-control" name="username" [(ngModel)]="cliente.username" required>
-    <input type="password" placeholder="Senha" class="form-control" name="senha" [(ngModel)]="cliente.password" required>
-    <input type="text" placeholder="CNPJ" class="form-control" name="cnpj" [(ngModel)]="cliente.cnpj" required>
-    <input type="text" placeholder="Razão Social" class="form-control" name="razaoSocial" [(ngModel)]="cliente.razaoSocial" required>
-    <input type="text" placeholder="Status" class="form-control" name="status" [(ngModel)]="cliente.status" required>
-
-
-    <input type="button" value="Cadastrar"  class="btn btn-primary"     *ngIf="btnCadastro" (click)="cadastrarClientes()">
-    <input type="button" value="Alterar"    class="btn btn-warning"     *ngIf="!btnCadastro" (click)="editarCliente()">
-    <input type="button" value="Remover"    class="btn btn-danger"      *ngIf="!btnCadastro" (click)="removerCliente()">
-    <input type="button" value="Cancelar"   class="btn btn-secondary"   *ngIf="!btnCadastro" (click)="cancelarAcao()">
-    <div class="container my-4">
-        <h2 class="text-center h4">Buscar Clientes</h2> <!-- Título menor -->
-    
-        <div class="input-group mb-3" *ngIf="tabela">
-            <label class="input-group-text" for="razaoSocial">Razão Social:</label>
-            <input type="text" class="form-control" id="razaoSocial" name="razaosocial" [(ngModel)]="filtroRazaoSocial" placeholder="Digite a razão social" />
-            <input id="btnBuscaRazaoSocial" class="btn btn-secondary" type="button" value="Buscar" (click)="buscarPorRazaoSocial()">
+<div class="container-forms">
+    <div class="container-inclusao">
+        <div class="header">
+            <img src="/cliente.png" alt="Cliente Logo">
+            <h2>{{ tabela ? 'Edição de Cliente' : 'Inclusão de Cliente' }}</h2>
         </div>
-        
-        <div class="input-group mb-3" *ngIf="tabela">
-            <label class="input-group-text" for="cnpj">CNPJ:</label>
-            <input type="text" class="form-control" id="cnpj" name="Cnpj"[(ngModel)]="filtroCnpj" placeholder="Digite o CNPJ" />
-            <input id="btnBuscaCnpj" class="btn btn-secondary" type="button" value="Buscar" (click)="buscarPorCnpj()">
+        <form action="" class="form-cadastro">
+            <input type="text" placeholder="Nome" class="form-control" name="username" [(ngModel)]="cliente.username" required>
+            <input type="password" placeholder="Senha" class="form-control" name="senha" [(ngModel)]="cliente.password" required>
+            <input type="text" placeholder="CNPJ" class="form-control" name="cnpj" [(ngModel)]="cliente.cnpj" required>
+            <input type="text" placeholder="Razão Social" class="form-control" name="razaoSocial" [(ngModel)]="cliente.razaoSocial" required>
+            <input type="text" placeholder="Status" class="form-control" name="status" [(ngModel)]="cliente.status" required>
+
+            <input type="button" value="Cadastrar" class="btn btn-primary" *ngIf="btnCadastro" (click)="cadastrarClientes()">
+            <input type="button" value="Alterar" class="btn btn-warning" *ngIf="!btnCadastro" (click)="editarCliente()">
+            <input type="button" value="Remover" class="btn btn-danger" *ngIf="!btnCadastro" (click)="removerCliente()">
+            <input type="button" value="Cancelar" class="btn btn-secondary" *ngIf="!btnCadastro" (click)="cancelarAcao()">
+        </form>
+    </div>
+
+    <div class="container-busca" *ngIf="tabela">
+        <div class="form-busca">
+            <h2>Buscar Clientes</h2>
+
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="razaoSocial">Razão Social:</label>
+                <input type="text" class="form-control" id="razaoSocial" name="razaosocial" [(ngModel)]="filtroRazaoSocial" placeholder="Digite a razão social" />
+                <input id="btnBuscaRazaoSocial" class="btn btn-secondary" type="button" value="Buscar" (click)="buscarPorRazaoSocial()">
+            </div>
+
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="cnpj">CNPJ:</label>
+                <input type="text" class="form-control" id="cnpj" name="Cnpj" [(ngModel)]="filtroCnpj" placeholder="Digite o CNPJ" />
+                <input id="btnBuscaCnpj" class="btn btn-secondary" type="button" value="Buscar" (click)="buscarPorCnpj()">
+            </div>
+
+            <table class="table" >
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nome</th>
+                        <th>Senha</th>
+                        <th>CNPJ</th>
+                        <th>Razão Social</th>
+                        <th>Status</th>
+                        <th>Selecionar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of clientes; index as i">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ c.username }}</td>
+                        <td>{{ c.password ? 'Definida' : 'Não Definida' }}</td>
+                        <td>{{ c.cnpj }}</td>
+                        <td>{{ c.razaoSocial }}</td>
+                        <td>{{ c.status }}</td>
+                        <td>
+                            <button class="btn btn-success" (click)="selecionarCliente(i)">Selecionar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-    
-</form>
-<table class="table" *ngIf="tabela">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Nome</th>
-            <th>Senha</th> <!-- Adicionada coluna para a senha -->
-            <th>CNPJ</th>
-            <th>Razão Social</th>
-            <th>Status</th>
-            <th>Selecionar</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let c of clientes; index as i">
-            <td>{{ i + 1 }}</td>
-            <td>{{ c.username }}</td>
-            <td>{{ c.password ? 'Definida' : 'Não Definida' }}</td> <!-- Exibindo se a senha está definida -->
-            <td>{{ c.cnpj }}</td>
-            <td>{{ c.razaoSocial }}</td>
-            <td>{{ c.status }}</td>
-            <td>
-                <button class="btn btn-success" (click)="selecionarCliente(i)">Selecionar</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+</div>

@@ -1,29 +1,101 @@
+/* Estilo geral */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa; /* Fundo leve */
+    color: #343a40; /* Cor do texto */
+}
+
+/* Imagem do logo */
 img {
     width: 250px;
     margin-bottom: 30px;
 }
 
+/* Formulário */
 form {
     width: 500px;
     margin: 30px auto;
     text-align: center;
+    padding: 20px;
+    background-color: #ffffff; /* Fundo branco para o formulário */
+    border-radius: 10px; /* Bordas arredondadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
-table{
+/* Tabela */
+table {
     width: 750px;
     margin: 30px auto;
     text-align: center;
+    border-collapse: collapse; /* Colapsa bordas */
 }
 
-input{
+table th, table td {
+    border: 1px solid #dee2e6; /* Bordas da tabela */
+    padding: 10px; /* Espaçamento interno */
+}
+
+/* Input */
+input {
     margin-bottom: 10px;
+    padding: 10px; /* Espaçamento interno */
+    border: 1px solid #ced4da; /* Borda */
+    border-radius: 5px; /* Bordas arredondadas */
+    width: calc(100% - 22px); /* Largura completa com margem */
 }
 
-input[type="button"]{
-    margin-right: 10px;
+/* Estilo dos botões */
+input[type="button"], button {
+    padding: 10px 15px; /* Espaçamento interno */
+    border: none; /* Remove bordas padrão */
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer; /* Muda o cursor para indicar clique */
+    transition: background-color 0.3s ease; /* Transição suave */
 }
+
+input[type="button"] {
+    background-color: #007bff; /* Azul padrão */
+    color: white; /* Cor do texto */
+}
+
+input[type="button"]:hover {
+    background-color: #0056b3; /* Azul mais escuro no hover */
+}
+
+.btn-warning {
+    background-color: #ffc107; /* Amarelo */
+}
+
+.btn-warning:hover {
+    background-color: #e0a800; /* Amarelo mais escuro no hover */
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Vermelho */
+}
+
+.btn-danger:hover {
+    background-color: #c82333; /* Vermelho mais escuro no hover */
+}
+
+/* Títulos */
 h1 {
     text-align: center; 
-    margin: 100px;
+    margin: 50px 0; /* Margem superior e inferior */
 }
 
+/* Estilo da tabela */
+th {
+    background-color: #f1f1f1; /* Fundo leve para cabeçalhos */
+}
+
+td {
+    background-color: #ffffff; /* Fundo branco para células */
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    form, table {
+        width: 90%; /* Largura do formulário e tabela em telas pequenas */
+    }
+}
