@@ -1,0 +1,16 @@
+
+
+<H1>Cadastro de Clientes</H1>
+<form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <div>
+      <label for="username">Usuário:</label>
+      <input type="text" id="username" required [(ngModel)]="username" name="username"  class="form-control">
+    </div>
+    <div>
+      <label for="password">Senha:</label>
+      <input type="password" id="password" required [(ngModel)]="password" name="password"  class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Entrar</button>
+    <div *ngIf="errorMessage">{{ errorMessage }}</div>
+  </form>
+  

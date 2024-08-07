@@ -1,0 +1,42 @@
+<form action="">
+    <img src="/cliente.png">
+    
+    <input type="text" placeholder="Nome"       class="form-control" name="nome"    [(ngModel)]="cliente.username" >
+    <input type="number" placeholder="Senha"    class="form-control" name="senha"   [(ngModel)]="cliente.password" >
+    <input type="text" placeholder="CNPJ"     class="form-control" name="cnpj"  [(ngModel)]="cliente.cnpj" >
+    <input type="text" placeholder="RazaoSocial"     class="form-control" name="razaoSocial"  [(ngModel)]="cliente.razaoSocial" >
+    <input type="text" placeholder="Status"     class="form-control" name="status"  [(ngModel)]="cliente.status" >
+    <input type="text" placeholder="Papel"     class="form-control" name="papel"  [(ngModel)]="cliente.papel" >
+
+
+    <input type="button" value="Cadastrar"  class="btn btn-primary"     *ngIf="btnCadastro" (click)="cadastrarClientes()">
+    <input type="button" value="Alterar"    class="btn btn-warning"     *ngIf="!btnCadastro" (click)="editarCliente()">
+    <input type="button" value="Remover"    class="btn btn-danger"      *ngIf="!btnCadastro" (click)="removerCliente()">
+    <input type="button" value="Cancelar"   class="btn btn-secondary"   *ngIf="!btnCadastro" (click)="cancelarAcao()">
+</form>
+<table class="table" *ngIf="tabela">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Nome</th>
+            <th>Senha</th>
+            <th>CNPJ</th>
+            <th>Razão Social</th>
+            <th>Status</th>
+            <th>Papel</th>
+            <th>Selecionar</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let c of clientes; index as i">
+            <td>{{i+1}}</td>
+            <td>{{c.username}}</td>
+            <td>{{c.password}}</td>
+            <td>{{c.cnpj}}</td>
+            <td>{{c.razaoSocial}}</td>
+            <td>{{c.status}}</td>
+            <td>{{c.papel}}</td>
+            <td><button class="btn btn-success" (click)="selecionarCliente(i)">Selecionar</button></td>
+        </tr>
+    </tbody>
+</table>
