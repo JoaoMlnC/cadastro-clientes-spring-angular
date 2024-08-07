@@ -39,7 +39,9 @@ public class WebSecurityConfiguration {
             .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.and())
             .authorizeHttpRequests(authz -> authz
-            	    .requestMatchers("/api/login", "/api/receiveCliente","/clientes/listarClientes" ).permitAll()
+            	    .requestMatchers("/api/login", "/api/receiveCliente",
+            	    		"/clientes/listarClientes", "/clientes/cadastrar", "/clientes/editar", "/clientes/remover/{id}",
+            	    		"/clientes/buscarPorRazaoSocial", "/clientes/buscarPorCnpj").permitAll()
 //            	    .requestMatchers("/clientes/listarClientes").authenticated()// Permite acesso aos dois endpoints
             	    .anyRequest().authenticated()
 
@@ -78,5 +80,9 @@ public class WebSecurityConfiguration {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

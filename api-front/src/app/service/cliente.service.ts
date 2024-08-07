@@ -23,6 +23,7 @@ export class ClienteService {
     return this.http.post<Cliente>(this.url + "/cadastrar", obj)
   }
 
+
   editarClientes(obj:Cliente):Observable<Cliente> {
     return this.http.put<Cliente>(this.url + "/editar", obj)
   }
@@ -30,4 +31,13 @@ export class ClienteService {
   removerClientes(codigo:number):Observable<void>{
     return this.http.delete<void>(this.url + "/remover/" + codigo )
   }
+
+  buscarPorRazaoSocial(razaoSocial: string): Observable<Cliente[]> {
+    return this.http.get<Cliente[]>(`${this.url}/buscarPorRazaoSocial?razaoSocial=${razaoSocial}`);
+  }
+
+  buscarPorCnpj(cnpj: string): Observable<Cliente[]> {
+    return this.http.get<Cliente[]>(`${this.url}/buscarPorCnpj?cnpj=${cnpj}`);
+  }
+
 }

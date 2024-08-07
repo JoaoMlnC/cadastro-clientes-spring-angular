@@ -14,10 +14,8 @@ public class Cliente {
     private String cnpj;
     private String razaoSocial;
     private String username;
-    private String password;
     private String status;
-    private String papel;
-
+    private String password;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
@@ -52,13 +50,6 @@ public class Cliente {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getStatus() {
         return status;
@@ -68,14 +59,12 @@ public class Cliente {
         this.status = status;
     }
 
-    public String getPapel() {
-        return papel;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setPapel(String papel) {
-        this.papel = papel;
-    }
-
-
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 }

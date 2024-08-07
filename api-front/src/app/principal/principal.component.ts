@@ -9,126 +9,108 @@ import { ClienteService } from '../service/cliente.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './principal.component.html',
-  styleUrl: './principal.component.css'
+  styleUrls: ['./principal.component.css'] // Corrigido para styleUrls
 })
 export class PrincipalComponent {
-
-  //Método de inicialização
-  ngOnInit(){
-    this.listarClientes();
-  }
+  // Propriedades para filtros
+  filtroRazaoSocial: string = '';
+  filtroCnpj: string = '';
 
   // Objeto do tipo Cliente
   cliente = new Cliente();
+  clientes: Cliente[] = [];
+  btnCadastro: boolean = true;
+  tabela: boolean = true;
 
-  //Variável para visibilidade dos botões
-  btnCadastro:boolean = true;
+  public isSelecionar: boolean = false;
 
-  //Variável para visibilidade da tabela
-  tabela:boolean = true;
+  constructor(private service: ClienteService) {}
 
-  //Json de Clientes
-  clientes:Cliente[] = [];
-
-  //Construtor
-  constructor(private service:ClienteService){}
-  
-  //Método de seleção
-  listarClientes():void {
-    this.service.listarClientes().subscribe(retorno => this.clientes = retorno);
+  ngOnInit() {
+    this.listarClientes();
   }
 
-  //Método de cadastro
-  cadastrarClientes():void{
-    this.service.cadastrarClientes(this.cliente)
-    .subscribe(retorno => {
-      
-      //cadastrar o cliente no vetor
-      this.clientes.push(retorno)
-      
-      //limpar formulário
-      this.cliente= new Cliente();
+  listarClientes(): void {
+    this.service.listarClientes().subscribe(retorno => this.clientes = retorno);
+    console.log(this.clientes);
+  }
 
-      //Mensagem
-      alert("Cliente cadastrado com Sucesso!")
+  // Método de cadastro
+  cadastrarClientes(): void {
+    this.service.cadastrarClientes(this.cliente).subscribe(retorno => {
+      this.clientes.push(retorno);
+      this.cliente = new Cliente(); // Limpar formulário
+      alert("Cliente cadastrado com Sucesso!");
+      this.listarClientes(); // Atualizar a lista
     });
   }
 
-  //Metodo para selecionar um cliente específico
-  selecionarCliente(posicao:number):void{
-    
-    //selecionar o cliente no vetor
+  // Método de seleção
+  selecionarCliente(posicao: number): void {
+    this.isSelecionar = true;
     this.cliente = this.clientes[posicao];
-
-    //visibilidade dos botões
     this.btnCadastro = false;
-
-    //visibilidade da tabela
     this.tabela = false;
   }
 
-  //Método para editar clientes
-  editarCliente():void{
-    this.service.editarClientes(this.cliente)
-    .subscribe(retorno => {
-      
-      //obter posição do vetor
-      let posicao = this.clientes.findIndex(obj => {
-        return obj.id == retorno.id;
-      });
-
-      //Alterar os dados dolciente do Vetor
+  // Método para editar clientes
+  editarCliente(): void {
+    if (!this.cliente.username) {
+      alert("Todos os campos são obrigatórios!");
+      return;
+    }
+    this.service.editarClientes(this.cliente).subscribe(retorno => {
+      let posicao = this.clientes.findIndex(obj => obj.id == retorno.id);
       this.clientes[posicao] = retorno;
-
-      //limpar formulário
-      this.cliente= new Cliente();
-
-      //Exibir o botão
+      this.cliente = new Cliente();
       this.btnCadastro = true;
-
-      //Visibilidade da Tabela
       this.tabela = true;
-
+      this.listarClientes(); // Atualizar a lista
       alert("Cliente alterado com Sucesso!");
     });
   }
 
-  //Método para editar clientes
-  removerCliente():void{
-    this.service.removerClientes(this.cliente.id)
-    .subscribe(() => {
-      
-      //obter posição do vetor
-      let posicao = this.clientes.findIndex(obj => {
-        return obj.id == this.cliente.id;
-      });
-
-      //Remover cliente do vetor
+  // Método para remover clientes
+  removerCliente(): void {
+    this.service.removerClientes(this.cliente.id).subscribe(() => {
+      let posicao = this.clientes.findIndex(obj => obj.id == this.cliente.id);
       this.clientes.splice(posicao, 1);
-
-      //limpar formulário
-      this.cliente= new Cliente();
-
-      //Exibir o botão
+      this.cliente = new Cliente();
       this.btnCadastro = true;
-
-      //Visibilidade da Tabela
       this.tabela = true;
-
+      this.listarClientes(); // Atualizar a lista
       alert("Cliente Removido com Sucesso!");
     });
   }
 
-  //Método para cancelar
-  cancelarAcao():void{
-     //limpar formulário
-     this.cliente= new Cliente();
-
-     //Exibir o botão
-     this.btnCadastro = true;
-
-     //Visibilidade da Tabela
-     this.tabela = true;
+  // Método para cancelar
+  cancelarAcao(): void {
+    this.cliente = new Cliente();
+    this.btnCadastro = true;
+    this.tabela = true;
   }
 
+  // Método para buscar por razão social
+  buscarPorRazaoSocial(): void {
+    if (!this.filtroRazaoSocial) {
+      alert('Por favor, insira uma razão social para buscar.');
+      return;
+    }
+    
+    this.service.buscarPorRazaoSocial(this.filtroRazaoSocial).subscribe(retorno => {
+      this.clientes = retorno;
+    });
+  }
+
+  // Método para buscar por CNPJ
+  buscarPorCnpj(): void {
+    if (!this.filtroCnpj) {
+      alert('Por favor, insira um CNPJ para buscar.');
+      return;
+    }
+    
+    this.service.buscarPorCnpj(this.filtroCnpj).subscribe(retorno => {
+      this.clientes = retorno;
+    });
+  }
 }

@@ -19,10 +19,6 @@ public class CustomUserDetails implements UserDetails {
         this.usuario = usuario;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(usuario.getPapel()));
-    }
 
     @Override
     public String getPassword() {
@@ -35,5 +31,12 @@ public class CustomUserDetails implements UserDetails {
         
         return usuario.getUsername();
     }
+
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

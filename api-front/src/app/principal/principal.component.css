@@ -23,3 +23,18 @@ input{
 input[type="button"]{
     margin-right: 10px;
 }
+#razaoSocial,
+#cnpj {
+    height: 38px; /* Ajuste a altura do input */
+}
+
+.input-group-text {
+    height: 38px; /* Ajuste a altura da label */
+    line-height: 1.5; /* Alinha verticalmente o texto */
+}
+
+#btnBuscaRazaoSocial,
+#btnBuscaCnpj {
+    height: 38px; /* Ajuste a altura do botão */
+    line-height: 1.5; /* Alinha verticalmente o texto do botão */
+}
